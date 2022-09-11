@@ -117,6 +117,7 @@ class RenderingEngine:
         font = pygame.font.SysFont("Arial", 50)
         text = font.render(text, True, (255, 255, 255))
         self.window.blit(text, (self.WINDOW_WIDTH / 2 - text.get_width() / 2, self.WINDOW_HEIGHT / 2 - text.get_height() / 2))
+        pygame.display.update()
     
     def choose_impossible_mode(self):
         # First clear the screen

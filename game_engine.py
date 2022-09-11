@@ -31,13 +31,17 @@ class GameEngine:
             if self.is_players_turn:
                 # Check for events
                 self.move = self.render_engine.listen_for_events()
+                self.last_move = self.move
                 number_of_cards_left -= self.move
                 self.render_engine.draw_game(number_of_cards_left, self.is_players_turn)
                 sleep(1)
                 self.is_players_turn = False
             else:
                 if self.impossible_mode:
-                    pass
+                    if number_of_cards_left % 4 == 0:
+                        self.move = random.randint(1, 3)
+                    else:
+                        self.move = 4 - self.last_move
                     self.is_players_turn = True
                 else:
                     # Pick a random number of cards to take that is possible with the number of cards left
@@ -55,4 +59,6 @@ class GameEngine:
                 else:
                     self.player_won = True
                 self.game_active = False
+                print("Hi")
                 self.render_engine.draw_final_screen(self.player_won)
+                sleep(5)
