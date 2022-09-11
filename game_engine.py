@@ -1,4 +1,5 @@
 import random
+from re import T
 from time import sleep
 import rendering_engine
 
@@ -33,7 +34,17 @@ class GameEngine:
                 self.render_engine.draw_game(number_of_cards_left, self.is_players_turn)
                 if self.is_players_turn:
                     # Check for events
-                    self.move = self.render_engine.listen_for_events()
+                    self.move_not_valid = True
+                    while self.move_not_valid:
+                        self.move = self.render_engine.listen_for_events()
+                        if self.move > number_of_cards_left:
+                            # Invalid move
+                            self.render_engine.draw_invalid_move()
+                            sleep(1)
+                            self.render_engine.draw_game(number_of_cards_left, self.is_players_turn)
+                            self.move = self.render_engine.listen_for_events()
+                        else:
+                            self.move_not_valid = False
                     number_of_cards_left -= self.move
                     self.render_engine.draw_game(number_of_cards_left, self.is_players_turn)
                     sleep(1)
