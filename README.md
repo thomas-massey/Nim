@@ -1,2 +1,2 @@
 # Demo
-(https://gfycat.com/politematurecat)
+![Demo example](https://gfycat.com/politematurecat)
