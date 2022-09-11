@@ -52,7 +52,7 @@ class RenderingEngine:
         pygame.draw.rect(self.window, (255, 255, 255), (self.WINDOW_WIDTH / 2 - 100, self.WINDOW_HEIGHT / 2 - 200, 200, 200), 5)
         # Then draw the number of cards in the middle on the middle card
         font = pygame.font.SysFont("Arial", 35)
-        text = font.render(str(number_of_cards_left) + "              Cards Remaining", True, (255, 255, 255))
+        text = font.render(str(number_of_cards_left) + "              Cards Remaining", True, (255, 255, 255)) # <--- This is a hack to make the text centered
         self.window.blit(text, (self.WINDOW_WIDTH / 2 - 10, self.WINDOW_HEIGHT / 2 - text.get_height() / 2 - 100))
         # Now draw three cards on the bottom of the screen
         # It should look like this:
@@ -156,3 +156,29 @@ class RenderingEngine:
         self.window.blit(text, (self.WINDOW_WIDTH / 2 - text.get_width() / 2, self.WINDOW_HEIGHT / 2 - text.get_height() / 2))
         pygame.display.update()
         pygame.time.delay(2000)
+
+    def play_again(self):
+        # Clear the screen
+        self.window.fill((0, 0, 0))
+        font = pygame.font.SysFont("Arial", 50)
+        # Create a rectangle on the left hand side of the screen
+        pygame.draw.rect(self.window, (255, 255, 255), (0, 0, self.WINDOW_WIDTH / 2, self.WINDOW_HEIGHT), 5)
+        # Create a rectangle on the right hand side of the screen
+        pygame.draw.rect(self.window, (255, 255, 255), (self.WINDOW_WIDTH / 2, 0, self.WINDOW_WIDTH / 2, self.WINDOW_HEIGHT), 5)
+        # Create text on the left hand side saying "Play Again"
+        text = font.render("Play Again", True, (255, 255, 255))
+        self.window.blit(text, (self.WINDOW_WIDTH / 4 - text.get_width() / 2, self.WINDOW_HEIGHT / 2 - text.get_height() / 2))
+        # Create text on the right hand side saying "Quit"
+        text = font.render("Quit", True, (255, 255, 255))
+        self.window.blit(text, (self.WINDOW_WIDTH / 4 * 3 - text.get_width() / 2, self.WINDOW_HEIGHT / 2 - text.get_height() / 2))
+        pygame.display.update()
+        while True:
+            for input in pygame.event.get():
+                if input.type == pygame.QUIT:
+                    pygame.quit()
+                    exit()
+                elif input.type == pygame.MOUSEBUTTONDOWN:
+                    if input.pos[0] < self.WINDOW_WIDTH / 2:
+                        return True
+                    else:
+                        return False
