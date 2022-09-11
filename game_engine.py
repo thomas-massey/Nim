@@ -59,6 +59,5 @@ class GameEngine:
                 else:
                     self.player_won = True
                 self.game_active = False
-                print("Hi")
                 self.render_engine.draw_final_screen(self.player_won)
                 sleep(5)

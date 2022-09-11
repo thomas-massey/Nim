@@ -51,9 +51,9 @@ class RenderingEngine:
         self.window.fill((0, 0, 0))
         pygame.draw.rect(self.window, (255, 255, 255), (self.WINDOW_WIDTH / 2 - 100, self.WINDOW_HEIGHT / 2 - 200, 200, 200), 5)
         # Then draw the number of cards in the middle on the middle card
-        font = pygame.font.SysFont("Arial", 50)
-        text = font.render(str(number_of_cards_left), True, (255, 255, 255))
-        self.window.blit(text, (self.WINDOW_WIDTH / 2 - text.get_width() / 2, self.WINDOW_HEIGHT / 2 - text.get_height() / 2 - 100))
+        font = pygame.font.SysFont("Arial", 35)
+        text = font.render(str(number_of_cards_left) + "              Cards Remaining", True, (255, 255, 255))
+        self.window.blit(text, (self.WINDOW_WIDTH / 2 - 10, self.WINDOW_HEIGHT / 2 - text.get_height() / 2 - 100))
         # Now draw three cards on the bottom of the screen
         # It should look like this:
         # 
@@ -84,6 +84,9 @@ class RenderingEngine:
             text = font.render("Computer's Turn", True, (255, 255, 255))
         # Display the text at the top of the screen
         self.window.blit(text, (self.WINDOW_WIDTH / 2 - text.get_width() / 2, 0))
+        # Draw text on the right hand side saying "Be the last to take a card!"
+        text = font.render("Be the last to take a card!", True, (255, 255, 255))
+        self.window.blit(text, (self.WINDOW_WIDTH - text.get_width(), self.WINDOW_HEIGHT - text.get_height()))
         pygame.display.update()
     
     def listen_for_events(self):
