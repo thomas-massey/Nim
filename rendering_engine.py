@@ -1,5 +1,9 @@
 from time import sleep
-import pygame
+try:
+    import pygame
+except ImportError:
+    print("Pygame is not installed. Please install it and try again. You can install it with pip using the command:\npip install pygame")
+    exit()
 
 class RenderingEngine:
     def __init__(self):
