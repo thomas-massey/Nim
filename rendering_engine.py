@@ -46,7 +46,7 @@ class RenderingEngine:
         # Set the window title
         pygame.display.set_caption(self.WINDOW_TITLE)
 
-    def draw_game(self, number_of_cards_left):
+    def draw_game(self, number_of_cards_left, is_players_turn):
         # Draw the game
         # So draw a card in the middle of the screen
         self.window.fill((0, 0, 0))
@@ -77,5 +77,38 @@ class RenderingEngine:
         pygame.draw.rect(self.window, (255, 255, 255), (self.WINDOW_WIDTH / 2 + 100, self.WINDOW_HEIGHT / 2 + 50, 200, 200), 5)
         text = font.render("3", True, (255, 255, 255))
         self.window.blit(text, (self.WINDOW_WIDTH / 2 + 100 + 100 - text.get_width() / 2, self.WINDOW_HEIGHT / 2 + 50 + 100 - text.get_height() / 2))
+        # Now display the text "Your Turn" or "Computer's Turn"
+        # depending on who's turn it is
+        if is_players_turn:
+            text = font.render("Your Turn", True, (255, 255, 255))
+        else:
+            text = font.render("Computer's Turn", True, (255, 255, 255))
+        # Display the text at the top of the screen
+        self.window.blit(text, (self.WINDOW_WIDTH / 2 - text.get_width() / 2, 0))
         pygame.display.update()
-        sleep(5)
+    
+    def listen_for_events(self):
+        # Listen for events
+        # If the user clicks the X in the top right corner
+        # then close the window
+        while True:
+            for input in pygame.event.get():
+                if input.type == pygame.QUIT:
+                    pygame.quit()
+                    exit()
+                elif input.type == pygame.MOUSEBUTTONDOWN:
+                    # Check where the user clicked
+                    # If they clicked on the first card
+                    if input.pos[0] > self.WINDOW_WIDTH / 2 - 300 and input.pos[0] < self.WINDOW_WIDTH / 2 - 100 and input.pos[1] > self.WINDOW_HEIGHT / 2 + 50 and input.pos[1] < self.WINDOW_HEIGHT / 2 + 250:
+                        return 1
+                    # If they clicked on the second card
+                    elif input.pos[0] > self.WINDOW_WIDTH / 2 - 100 and input.pos[0] < self.WINDOW_WIDTH / 2 + 100 and input.pos[1] > self.WINDOW_HEIGHT / 2 + 50 and input.pos[1] < self.WINDOW_HEIGHT / 2 + 250:
+                        return 2
+                    # If they clicked on the third card
+                    elif input.pos[0] > self.WINDOW_WIDTH / 2 + 100 and input.pos[0] < self.WINDOW_WIDTH / 2 + 300 and input.pos[1] > self.WINDOW_HEIGHT / 2 + 50 and input.pos[1] < self.WINDOW_HEIGHT / 2 + 250:
+                        return 3
+
+    def draw_final_screen(self, player_won):
+        # Clear the screen
+        self.window.fill((0, 0, 0))
+        
