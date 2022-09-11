@@ -19,6 +19,8 @@ class GameEngine:
             self.is_players_turn = True
         else:
             self.is_players_turn = False
+        # Ask if they want impossible mode
+        self.impossible_mode = self.render_engine.choose_impossible_mode()
         # Start the game
         self.game_active = True
         # Start the game loop
@@ -29,6 +31,9 @@ class GameEngine:
             if self.is_players_turn:
                 # Check for events
                 self.move = self.render_engine.listen_for_events()
+                number_of_cards_left -= self.move
+                self.render_engine.draw_game(number_of_cards_left, self.is_players_turn)
+                sleep(1)
                 self.is_players_turn = False
             else:
                 if self.impossible_mode:
@@ -40,9 +45,10 @@ class GameEngine:
                         self.move = random.randint(1, 3)
                     else:
                         self.move = random.randint(1, number_of_cards_left)
+                    self.render_engine.display_computers_move(self.move)
                     self.is_players_turn = True
+                number_of_cards_left -= self.move
             # Check if the game is over
-            number_of_cards_left -= self.move
             if number_of_cards_left <= 0:
                 if self.is_players_turn:
                     self.player_won = False

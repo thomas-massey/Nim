@@ -24,8 +24,7 @@ class RenderingEngine:
         self.window.blit(first_text, (self.WINDOW_WIDTH / 4 - first_text.get_width() / 2, self.WINDOW_HEIGHT / 2 - first_text.get_height() / 2))
         self.window.blit(second_text, (self.WINDOW_WIDTH / 4 * 3 - second_text.get_width() / 2, self.WINDOW_HEIGHT / 2 - second_text.get_height() / 2))
         pygame.display.update()
-        self.move_not_detected = True
-        while self.move_not_detected:
+        while True:
             for input in pygame.event.get():
                 if input.type == pygame.MOUSEBUTTONDOWN:
                     if input.pos[0] < self.WINDOW_WIDTH / 2:
@@ -111,4 +110,45 @@ class RenderingEngine:
     def draw_final_screen(self, player_won):
         # Clear the screen
         self.window.fill((0, 0, 0))
-        
+        if player_won:
+            text = "You Won!"
+        else:
+            text = "You Lost!"
+        font = pygame.font.SysFont("Arial", 50)
+        text = font.render(text, True, (255, 255, 255))
+        self.window.blit(text, (self.WINDOW_WIDTH / 2 - text.get_width() / 2, self.WINDOW_HEIGHT / 2 - text.get_height() / 2))
+    
+    def choose_impossible_mode(self):
+        # First clear the screen
+        self.window.fill((0, 0, 0))
+        # Split the screen in half
+        # The left half will be the "Normal mode" button
+        # The right half will be the "Impossible mode" button
+        # The user can click on either button
+        pygame.draw.rect(self.window, (255, 255, 255), (0, 0, self.WINDOW_WIDTH / 2, self.WINDOW_HEIGHT), 5)
+        pygame.draw.rect(self.window, (255, 255, 255), (self.WINDOW_WIDTH / 2, 0, self.WINDOW_WIDTH / 2, self.WINDOW_HEIGHT), 5)
+        font = pygame.font.SysFont("Arial", 50)
+        text = font.render("Normal Mode", True, (255, 255, 255))
+        self.window.blit(text, (self.WINDOW_WIDTH / 4 - text.get_width() / 2, self.WINDOW_HEIGHT / 2 - text.get_height() / 2))
+        text = font.render("Impossible Mode", True, (255, 255, 255))
+        self.window.blit(text, (self.WINDOW_WIDTH / 4 * 3 - text.get_width() / 2, self.WINDOW_HEIGHT / 2 - text.get_height() / 2))
+        pygame.display.update()
+        while True:
+            for input in pygame.event.get():
+                if input.type == pygame.QUIT:
+                    pygame.quit()
+                    exit()
+                elif input.type == pygame.MOUSEBUTTONDOWN:
+                    if input.pos[0] < self.WINDOW_WIDTH / 2:
+                        return False
+                    else:
+                        return True
+
+    def display_computers_move(self, move):
+        # Clear the screen
+        self.window.fill((0, 0, 0))
+        font = pygame.font.SysFont("Arial", 50)
+        text = font.render("Computer chose card " + str(move), True, (255, 255, 255))
+        self.window.blit(text, (self.WINDOW_WIDTH / 2 - text.get_width() / 2, self.WINDOW_HEIGHT / 2 - text.get_height() / 2))
+        pygame.display.update()
+        pygame.time.delay(2000)
