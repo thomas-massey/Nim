@@ -49,70 +49,11 @@ class RenderingEngine:
         # Set the window title
         pygame.display.set_caption(self.WINDOW_TITLE)
 
-    def draw_game(self, number_of_cards_left, is_players_turn):
-        # Draw the game
-        # So draw a card in the middle of the screen
-        self.window.fill((0, 0, 0))
-        pygame.draw.rect(self.window, (255, 255, 255), (self.WINDOW_WIDTH / 2 - 100, self.WINDOW_HEIGHT / 2 - 200, 200, 200), 5)
-        # Then draw the number of cards in the middle on the middle card
-        font = pygame.font.SysFont("Arial", 35)
-        text = font.render(str(number_of_cards_left) + "              Cards Remaining", True, (255, 255, 255)) # <--- This is a hack to make the text centered
-        self.window.blit(text, (self.WINDOW_WIDTH / 2 - 10, self.WINDOW_HEIGHT / 2 - text.get_height() / 2 - 100))
-        # Now draw three cards on the bottom of the screen
-        # It should look like this:
-        # 
-        #           __
-        #          |21| 
-        #           --
-        #
-        #      __   __   __
-        #     | 1| | 2| | 3|
-        #      --   --   --
-        # Display 1 in the first card to the left
-        pygame.draw.rect(self.window, (255, 255, 255), (self.WINDOW_WIDTH / 2 - 300, self.WINDOW_HEIGHT / 2 + 50, 200, 200), 5)
-        text = font.render("1", True, (255, 255, 255))
-        self.window.blit(text, (self.WINDOW_WIDTH / 2 - 300 + 100 - text.get_width() / 2, self.WINDOW_HEIGHT / 2 + 50 + 100 - text.get_height() / 2))
-        # Display 2 in the second card
-        pygame.draw.rect(self.window, (255, 255, 255), (self.WINDOW_WIDTH / 2 - 100, self.WINDOW_HEIGHT / 2 + 50, 200, 200), 5)
-        text = font.render("2", True, (255, 255, 255))
-        self.window.blit(text, (self.WINDOW_WIDTH / 2 - 100 + 100 - text.get_width() / 2, self.WINDOW_HEIGHT / 2 + 50 + 100 - text.get_height() / 2))
-        # Display 3 in the third card
-        pygame.draw.rect(self.window, (255, 255, 255), (self.WINDOW_WIDTH / 2 + 100, self.WINDOW_HEIGHT / 2 + 50, 200, 200), 5)
-        text = font.render("3", True, (255, 255, 255))
-        self.window.blit(text, (self.WINDOW_WIDTH / 2 + 100 + 100 - text.get_width() / 2, self.WINDOW_HEIGHT / 2 + 50 + 100 - text.get_height() / 2))
-        # Now display the text "Your Turn" or "Computer's Turn"
-        # depending on who's turn it is
-        if is_players_turn:
-            text = font.render("Your Turn", True, (255, 255, 255))
-        else:
-            text = font.render("Computer's Turn", True, (255, 255, 255))
-        # Display the text at the top of the screen
-        self.window.blit(text, (self.WINDOW_WIDTH / 2 - text.get_width() / 2, 0))
-        # Draw text on the right hand side saying "Be the last to take a card!"
-        text = font.render("Be the last to take a card!", True, (255, 255, 255))
-        self.window.blit(text, (self.WINDOW_WIDTH - text.get_width(), self.WINDOW_HEIGHT - text.get_height()))
-        pygame.display.update()
-    
-    def listen_for_events(self):
-        # Listen for events
-        # If the user clicks the X in the top right corner
-        # then close the window
-        while True:
-            for input in pygame.event.get():
-                if input.type == pygame.QUIT:
-                    pygame.quit()
-                    exit()
-                elif input.type == pygame.MOUSEBUTTONDOWN:
-                    # Check where the user clicked
-                    # If they clicked on the first card
-                    if input.pos[0] > self.WINDOW_WIDTH / 2 - 300 and input.pos[0] < self.WINDOW_WIDTH / 2 - 100 and input.pos[1] > self.WINDOW_HEIGHT / 2 + 50 and input.pos[1] < self.WINDOW_HEIGHT / 2 + 250:
-                        return 1
-                    # If they clicked on the second card
-                    elif input.pos[0] > self.WINDOW_WIDTH / 2 - 100 and input.pos[0] < self.WINDOW_WIDTH / 2 + 100 and input.pos[1] > self.WINDOW_HEIGHT / 2 + 50 and input.pos[1] < self.WINDOW_HEIGHT / 2 + 250:
-                        return 2
-                    # If they clicked on the third card
-                    elif input.pos[0] > self.WINDOW_WIDTH / 2 + 100 and input.pos[0] < self.WINDOW_WIDTH / 2 + 300 and input.pos[1] > self.WINDOW_HEIGHT / 2 + 50 and input.pos[1] < self.WINDOW_HEIGHT / 2 + 250:
-                        return 3
+    def draw_game(self, row, is_players_turn):
+        # We will render some dots on the screen. Row could be multiple and is structured in a 2D list.
+        # Each row will be rendered on a separate line
+        # Each dot will be rendered as a circle
+        
 
     def draw_final_screen(self, player_won):
         # Clear the screen
